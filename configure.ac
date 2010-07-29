@@ -100,7 +100,7 @@ DPKG_C_ATTRIBUTE
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
 DPKG_FUNC_C99_SNPRINTF
-DPKG_FUNC_ASYNC_SYNC
+DPKG_FUNC_SYNC_SYNC
 DPKG_CHECK_DECL([offsetof], [stddef.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
