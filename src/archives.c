@@ -81,6 +81,14 @@ static int safe_read(int fd, void *buf, int len)
   return have;
 }
 
+static inline void
+fd_writeback_init(int fd)
+{
+#if defined(SYNC_FILE_RANGE_WRITE)
+  sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
+#endif
+}
+
 static struct obstack tar_obs;
 static int tarobs_init= 0;
 
@@ -643,6 +651,9 @@ int tarobject(struct TarInfo *ti) {
     }
     r= ti->Size % TARBLKSZ;
     if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);
+
+    fd_writeback_init(fd);
+
     if (nifd->namenode->statoverride) 
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
