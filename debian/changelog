@@ -1,10 +1,9 @@
-dpkg (1.15.5.6ubuntu4.2) lucid-proposed; urgency=low
+dpkg (1.15.5.6ubuntu4.3) lucid-security; urgency=low
 
-  * Backport my patch from dpkg 1.15.6.1:
-    - Accept source packages without "Format" field for compatibility with
-      very old source packages (LP: #632280).
+  * SECURITY UPDATE: no change rebuild to use the new statically linked libbz2
+    which fixed CVE-2010-0405
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 07 Sep 2010 12:05:25 +0100
+ -- Jamie Strandboge <jamie@ubuntu.com>  Mon, 20 Sep 2010 07:56:11 -0500
 
 dpkg (1.15.5.6ubuntu4.1) lucid-proposed; urgency=low
 
