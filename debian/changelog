@@ -1,3 +1,13 @@
+dpkg (1.15.5.6ubuntu4.5+test1) lucid-proposed; urgency=low
+
+  * Disable by default usage of synchronous sync(2), as it causes undesired
+    I/O on unrelated file systems. Closes: #588339, #595927, #600075
+  * On Linux use sync_file_range() to initiate asynchronous writeback
+    of just unpacked files. Suggested by Ted Ts'o <tytso@mit.edu>.
+    Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #605009
+
+ -- Michael Jeanson <mjeanson@rlnx.com>  Mon, 06 Aug 2012 18:49:15 +0000
+
 dpkg (1.15.5.6ubuntu4.5) lucid-security; urgency=low
 
   * SECURITY UPDATE: relative directory and symlink following in source pkgs.
