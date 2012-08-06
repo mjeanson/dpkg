@@ -1,3 +1,27 @@
+dpkg (1.15.5.6ubuntu2) lucid; urgency=high
+
+  * Backport from upstream:
+    - Use FIEMAP when available (on Linux based systems) to sort the .list
+      files loading order. With a cold cache it improves up to a 70%.
+      Thanks to Morten Hustveit <morten@debian.org>. LP: #442114
+    - Call fsync(2) after writing files on disk, to get the atomicity
+      guarantees when doing rename(2). Based on a patch by Jean-Baptiste
+      Lallement <jeanbaptiste.lallement@gmail.com>.
+      Closes: #430958, LP: #512096
+  * Security fixes by Raphaël Hertzog, also backported from upstream
+    (CVE-2010-0396):
+    - Modify dpkg-source to error out when it would apply patches containing
+      insecure paths (with "/../") and also error out when it would apply a
+      patch through a symlink. Those checks are required as patch will
+      happily modify files outside of the target directory and unpacking a
+      source package should not be able to have any side-effect outside of
+      the target directory. LP: #532445
+    - Also error out when the quilt series contains a path with "/../" as
+      this can cause patch to create files outside of the source package due
+      to the -B .pc/$path option that it gets.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 11 Mar 2010 00:34:28 +0000
+
 dpkg (1.15.5.6ubuntu1) lucid; urgency=low
 
   * Resynchronise with Debian.  Remaining changes:

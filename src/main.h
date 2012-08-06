@@ -43,6 +43,8 @@ struct perpackagestate {
   struct fileinlist *files;
   int replacingfilesandsaid;
 
+  off_t listfile_phys_offs;
+
   /* Non-NULL iff in trigproc.c:deferred. */
   struct pkg_list *trigprocdeferred;
 };
