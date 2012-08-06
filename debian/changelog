@@ -1,3 +1,13 @@
+dpkg (1.15.5.6ubuntu4.5) lucid-security; urgency=low
+
+  * SECURITY UPDATE: relative directory and symlink following in source pkgs.
+    - scripts/Dpkg/Source/Archive.pm, scripts/Dpkg/Source/Patch.pm,
+      scripts/Dpkg/Source/Package/V2.pm: applied fixes from Raphael Hertzog,
+      thanks to Raphael Geissert.
+    - CVE-2010-1679
+
+ -- Kees Cook <kees@ubuntu.com>  Thu, 06 Jan 2011 11:08:21 -0800
+
 dpkg (1.15.5.6ubuntu4.4) lucid-proposed; urgency=low
 
   * scripts/Dpkg/Source/Archive.pm: Drop -k parameter from the tar call used 
