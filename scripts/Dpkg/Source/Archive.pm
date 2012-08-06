@@ -119,7 +119,7 @@ sub extract {
     # Call tar extraction process
     $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $fork_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-                           @{$opts{"options"}}, '-xkf', '-' ];
+                           @{$opts{"options"}}, '-xf', '-' ];
     fork_and_exec(%fork_opts);
     $self->cleanup_after_open();
 

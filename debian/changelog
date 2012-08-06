@@ -1,3 +1,12 @@
+dpkg (1.15.5.6ubuntu4.4) lucid-proposed; urgency=low
+
+  * scripts/Dpkg/Source/Archive.pm: Drop -k parameter from the tar call used 
+    by dpkg-source to extract tarballs. Upstream binary files modified by the 
+    packager were not properly installed due to this.  Patch based on that of 
+    Raphaël Hertzog (upstream, debian git). (LP: #633015)
+
+ -- Dave Walker (Daviey) <DaveWalker@ubuntu.com>  Sat, 02 Oct 2010 00:30:53 +0100
+
 dpkg (1.15.5.6ubuntu4.3) lucid-security; urgency=low
 
   * SECURITY UPDATE: no change rebuild to use the new statically linked libbz2
