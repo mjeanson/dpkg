@@ -1,3 +1,11 @@
+dpkg (1.15.5.6ubuntu3) lucid; urgency=low
+
+  * Revert fsync during package unpack for now; it's unacceptably slow for
+    packages with lots of small files, and we can't ship beta-1 this way.
+    We'll do something better once it's decided upstream (LP: #537241).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 16 Mar 2010 10:04:38 +0000
+
 dpkg (1.15.5.6ubuntu2) lucid; urgency=high
 
   * Backport from upstream:
