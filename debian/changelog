@@ -1,3 +1,28 @@
+dpkg (1.15.5.6ubuntu1) lucid; urgency=low
+
+  * Resynchronise with Debian.  Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Adjust versioned emacs22 conflicts to cope with versions in Ubuntu.
+
+    Miscellaneous bug fixes:
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceivably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+  * Drop lpia hacks; lpia is no longer supported.
+  * Drop moves of various Conflicts to Breaks, which are moot since hardy
+    has newer versions of all the affected packages.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sun, 14 Feb 2010 01:32:19 +0000
+
 dpkg (1.15.5.6) unstable; urgency=low
 
   * dpkg-source: with format "3.0 (quilt)" ensure quilt's .pc directory is
@@ -214,12 +239,77 @@ dpkg (1.15.5) unstable; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 17 Nov 2009 10:17:57 +0100
 
+dpkg (1.15.4.1ubuntu1) lucid; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Adjust versioned emacs22 conflicts to cope with versions in Ubuntu.
+
+    Miscellaneous bug fixes:
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceivably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+
+    Launchpad integration:
+    - Add Launchpad-Bugs-Fixed handling in a few more places.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 11 Nov 2009 11:34:56 +0000
+
 dpkg (1.15.4.1) unstable; urgency=medium
 
   * Do not mark any package as unseen in dselect. This is a workaround
     until it learns how to store such information again. Closes: #545366
 
  -- Guillem Jover <guillem@debian.org>  Mon, 19 Oct 2009 15:15:17 +0200
+
+dpkg (1.15.4ubuntu2) karmic; urgency=low
+
+  * dpkg: Adjust versioned emacs22 conflicts. LP: #432584.
+
+ -- Matthias Klose <doko@ubuntu.com>  Sun, 20 Sep 2009 10:08:33 +0200
+
+dpkg (1.15.4ubuntu1) karmic; urgency=low
+
+  * Resynchronise with Debian (LP: #427854). Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+
+    Miscellaneous bug fixes:
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+
+    Launchpad integration:
+    - Add Launchpad-Bugs-Fixed handling in a few more places.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 18 Sep 2009 13:39:36 +0100
 
 dpkg (1.15.4) unstable; urgency=low
 
@@ -353,12 +443,70 @@ dpkg (1.15.4) unstable; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 Sep 2009 09:37:45 +0200
 
+dpkg (1.15.3.1ubuntu1) karmic; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+
+    Miscellaneous bug fixes:
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+
+    Launchpad integration:
+    - Add Launchpad-Bugs-Fixed handling in a few more places.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 08 Jul 2009 17:45:09 +0100
+
 dpkg (1.15.3.1) unstable; urgency=low
 
   [ Modestas Vainius ]
   * Fix wildcard support in symbol files. Closes: #536034
 
  -- Guillem Jover <guillem@debian.org>  Wed, 08 Jul 2009 11:26:36 +0200
+
+dpkg (1.15.3ubuntu1) karmic; urgency=low
+
+  * Resynchronise with Debian (LP: #393280). Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+
+    Miscellaneous bug fixes:
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+
+    Launchpad integration:
+    - Add Launchpad-Bugs-Fixed handling in a few more places.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 07 Jul 2009 13:26:01 +0100
 
 dpkg (1.15.3) unstable; urgency=low
 
@@ -435,6 +583,38 @@ dpkg (1.15.3) unstable; urgency=low
   * Swedish (Peter Krefting).
 
  -- Guillem Jover <guillem@debian.org>  Sat, 27 Jun 2009 19:06:43 +0200
+
+dpkg (1.15.2ubuntu1) karmic; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+
+    Launchpad integration:
+    - Add Launchpad-Bugs-Fixed handling in a few more places.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 07 Jul 2009 12:47:24 +0100
 
 dpkg (1.15.2) unstable; urgency=low
 
@@ -874,6 +1054,66 @@ dpkg (1.14.25) unstable; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 03 Feb 2009 00:00:41 +0200
 
+dpkg (1.14.24ubuntu2) karmic; urgency=low
+
+  * Backport from unstable (we'll merge soon enough, but I'm waiting for
+    1.15.1):
+    - Fix dpkg-source to not die when uncompressor processes are killed by
+      SIGPIPE due to tar closing the pipe without exhausting all the data
+      available. Closes: #523329
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 29 Apr 2009 00:26:36 +0100
+
+dpkg (1.14.24ubuntu1) jaunty; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Check source package signatures using
+      /usr/share/keyrings/ubuntu-archive-keyring.gpg if it exists.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+    - chdir("/") after chroot() when executing maintainer scripts under
+      --instdir (Debian #509578).
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      '@ubuntu.com', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if $DEBEMAIL contains 'ubuntu' but not '@ubuntu.com', or if
+      there is no XSBC-Original-Maintainer: field for packages with an
+      Ubuntu version number (Debian #426752).
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 07 Jan 2009 12:11:09 +0000
+
 dpkg (1.14.24) unstable; urgency=low
 
   [ Raphael Hertzog ]
@@ -902,6 +1142,56 @@ dpkg (1.14.24) unstable; urgency=low
   * Improve German translation.
 
  -- Guillem Jover <guillem@debian.org>  Mon, 29 Dec 2008 05:38:31 +0100
+
+dpkg (1.14.23ubuntu1) jaunty; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Check source package signatures using
+      /usr/share/keyrings/ubuntu-archive-keyring.gpg if it exists.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file (Debian #465340).
+    - chdir("/") after chroot() when executing maintainer scripts under
+      --instdir (Debian #509578).
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      '@ubuntu.com', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if $DEBEMAIL contains 'ubuntu' but not '@ubuntu.com', or if
+      there is no XSBC-Original-Maintainer: field for packages with an
+      Ubuntu version number (Debian #426752).
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Dec 2008 12:57:32 +0000
 
 dpkg (1.14.23) unstable; urgency=low
 
@@ -948,6 +1238,60 @@ dpkg (1.14.23) unstable; urgency=low
   * German (Helge Kreutzmann).
 
  -- Guillem Jover <guillem@debian.org>  Tue, 18 Nov 2008 11:50:56 +0200
+
+dpkg (1.14.22ubuntu1) jaunty; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Check source package signatures using
+      /usr/share/keyrings/ubuntu-archive-keyring.gpg if it exists.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian bug #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file.
+    - chdir("/") after chroot() when executing maintainer scripts under
+      --instdir.
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      '@ubuntu.com', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if $DEBEMAIL contains 'ubuntu' but not '@ubuntu.com', or if
+      there is no XSBC-Original-Maintainer: field for packages with an
+      Ubuntu version number.
+
+    Build options:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+    - Implement handling of hardening-wrapper options via DEB_BUILD_OPTIONS.
+
+  * Drop changes only relevant to unsupported and unlikely upgrade paths:
+    - Rename triggers/Deferred to triggers/Unincorp to fix upgrades from
+      early versions of trigger support in Ubuntu.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 01 Nov 2008 02:01:27 +0000
 
 dpkg (1.14.22) unstable; urgency=low
 
@@ -1038,6 +1382,91 @@ dpkg (1.14.21) unstable; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 26 Aug 2008 05:32:39 +0300
 
+dpkg (1.14.20ubuntu6) intrepid; urgency=low
+
+  * Be more liberal when checking for an Ubuntu Maintainer field; a
+    case-insensitive check is good enough, and copes e.g. with mplayer's
+    "Maintainer: Ubuntu MOTU Media Team <motumedia@tauware.de>".
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 03 Sep 2008 12:50:49 +0100
+
+dpkg (1.14.20ubuntu5) intrepid; urgency=low
+
+  * scripts/Dpkg/Source/Package.pm: Point gpg at
+    /usr/share/keyrings/ubuntu-archive-keyring.gpg if it exists.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 19 Aug 2008 17:29:27 +0100
+
+dpkg (1.14.20ubuntu4) intrepid; urgency=low
+
+  * scripts/dpkg-source.pl: Fix the regexp for the DEBEMAIL check to be more
+    specific to @ubuntu.com addresses. Addresses like "ubuntu@foo.com" should
+    not be considered as official ubuntu developer addresses. (LP: #252262)
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Tue, 29 Jul 2008 22:12:53 +0200
+
+dpkg (1.14.20ubuntu3) intrepid; urgency=low
+
+  * src/help.c: chdir("/") after chroot().  Not only is this good practice,
+    but it works around bug #251223
+
+ -- Matt Zimmerman <mdz@ubuntu.com>  Thu, 24 Jul 2008 18:31:52 +0100
+
+dpkg (1.14.20ubuntu2) intrepid; urgency=low
+
+  * scripts/dpkg-buildpackage.pl, man/dpkg-buildpackage.1: implement
+    handling of hardening-wrapper options via DEB_BUILD_OPTIONS
+    (Debian bug #489771).
+
+ -- Kees Cook <kees@ubuntu.com>  Thu, 03 Jul 2008 13:18:50 -0700
+
+dpkg (1.14.20ubuntu1) intrepid; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Pre-depend on lzma.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Rename triggers/Deferred to triggers/Unincorp to fix upgrades from
+      early versions of trigger support in Ubuntu.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian bug #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file.
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      'ubuntu', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if there is no XSBC-Original-Maintainer: field for packages
+      with an Ubuntu version number.
+
+    DistCompilerFlags:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 26 Jun 2008 13:07:53 +0100
+
 dpkg (1.14.20) unstable; urgency=low
 
   [ Guillem Jover ]
@@ -1101,6 +1530,61 @@ dpkg (1.14.20) unstable; urgency=low
   * Polish (Wiktor Wandachowicz).
 
  -- Raphael Hertzog <hertzog@debian.org>  Wed, 18 Jun 2008 09:33:54 +0200
+
+dpkg (1.14.19ubuntu2) intrepid; urgency=low
+
+  * scripts/dpkg-source.pl: Check if $DEBEMAIL is defined before testing it
+    for @ubuntu, to avoid Perl warnings. Thanks to Fabien Tassin!
+    (LP: #133024)
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Mon, 09 Jun 2008 09:51:08 +0000
+
+dpkg (1.14.19ubuntu1) intrepid; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Pre-depend on lzma.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Rename triggers/Deferred to triggers/Unincorp to fix upgrades from
+      early versions of trigger support in Ubuntu.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian bug #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file.
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      'ubuntu', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if there is no XSBC-Original-Maintainer: field for packages
+      with an Ubuntu version number.
+
+    DistCompilerFlags:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 27 May 2008 13:15:16 +0100
 
 dpkg (1.14.19) unstable; urgency=low
 
@@ -1183,6 +1667,53 @@ dpkg (1.14.19) unstable; urgency=low
   * Slovak (Ivan Masár). Closes: #479007
 
  -- Guillem Jover <guillem@debian.org>  Mon, 12 May 2008 08:33:07 +0300
+
+dpkg (1.14.18ubuntu1) intrepid; urgency=low
+
+  * Resynchronise with Debian. Remaining changes:
+    Ubuntu-specific adjustments (probably):
+    - Use i686 for lpia in cputable and triplettable.
+    - Hack Dpkg::Arch to return i686 for lpia.
+    - Pre-depend on lzma.
+    - Move various Conflicts to Breaks, since upgrades from stable Ubuntu
+      releases support Breaks.
+    - Rename triggers/Deferred to triggers/Unincorp to fix upgrades from
+      early versions of trigger support in Ubuntu.
+
+    Miscellaneous bug fixes:
+    - Avoid closing fsys tarfile pipe twice even in normal operation -
+      normally EBADF but might sometimes close some other desired fd and
+      cause hideous doom.
+    - Avoid duplicate attempts to [f]close in obscure error situations which
+      might conceiveably close wrong fds.
+    - Add a few more comments around obscure bits of trigger handling code
+      which confused both me and Ian during the merge.
+    - Revert change to stop outputting a newline after a postinst is run
+      (Debian bug #392317).
+    - Use the two-arg form of open in Dpkg::Control so that "-" can be
+      passed to parse stdin as a control file.
+
+    Launchpad integration:
+    - Implement changelog-closes-bugs for Ubuntu (see
+      https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+    - Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+      complain about unknown fields.
+
+    DebianMaintainerField:
+    - scripts/dpkg-source.pl: Check that debian/control complies with
+      https://wiki.ubuntu.com/DebianMaintainerField: If $DEBEMAIL contains
+      'ubuntu', refuse to build a source package if we have an Ubuntu
+      version number, but Maintainer: is not an Ubuntu address. Output a
+      warning if there is no XSBC-Original-Maintainer: field for packages
+      with an Ubuntu version number.
+
+    DistCompilerFlags:
+    - Point to https://wiki.ubuntu.com/DistCompilerFlags from
+      dpkg-buildpackage(1).
+    - Set default LDFLAGS to -Wl,-Bsymbolic-functions. (We've already taken
+      this hit in Ubuntu.)
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 27 May 2008 10:56:03 +0100
 
 dpkg (1.14.18) unstable; urgency=low
 
@@ -1410,6 +1941,106 @@ dpkg (1.14.17) experimental; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Sun, 30 Mar 2008 12:48:22 +0300
 
+dpkg (1.14.16.6ubuntu3) hardy; urgency=low
+
+  [ Stephan Hermann ]
+  * Re-Introduced the "Description" field in *_source.changes files, according
+    to Debian Policy.
+    This was removed during 1.14.16.6 upload and will be reintroduced in
+    1.14.17
+    Changes were taken from debians dpkg git Thx to Raphael Herzog for
+    pointing this out
+
+  [ Soren Hansen ]
+  * Remove NO_PKG_MANGLE to re-enable building of dpkg ddeb's.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 13 Feb 2008 00:58:33 +0100
+
+dpkg (1.14.16.6ubuntu2) hardy; urgency=low
+
+  * Fix wrong call to open in Dpkg/Control.pm that makes using a different
+    control file than debian/control fail horribly.
+  * Pass NO_PKG_MANGLE environment variable to dh_strip to make this package
+    not ftbfs. When this is built, published and in the buildd's, we'll
+    reupload without this to regenerate dpkg-dbgsym and such.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 11 Feb 2008 23:41:04 +0100
+
+dpkg (1.14.16.6ubuntu1) hardy; urgency=low
+
+  [ Soren Hansen ]
+  * Merge from debian unstable, remaining changes:
+   - Add m_strdup to mlib.
+   - Use i686 for lpia in cputable and triplettable.
+   - Hack Dpkg::Arch to return i686 for lpia.
+   - tarfn.c:
+     + Avoid freeing uninitialised h.{Link,}Name (can cause crash if .deb
+       becomes unreadable while we start up).  (LP #138887)
+     + Use m_malloc instead of malloc (and ditch ad-hoc error handling).
+
+   Launchpad integration:
+   * Implement changelog-closes-bugs for Ubuntu (see
+     https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+   * Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+     complain about unknown fields.
+
+   DebianMaintainerField:
+   * scripts/dpkg-source.pl: Check that debian/control complies to
+     https://wiki.ubuntu.com/DebianMaintainerField: Refuse to build a source
+     package if we have an Ubuntu version number, but Maintainer: is not an
+     Ubuntu address. Output a warning if there is no XSBC-Original-Maintainer:
+     field for packages with an Ubuntu version number.
+   * scripts/dpkg-source.pl: Only fail to build the source package if $DEBEMAIL
+     contains 'ubuntu'. If not, only print a warning.
+   * debian/control: Change Maintainer/XSBC-Original-Maintainer field.
+
+   Trigger support:
+   * Implement triggers as per
+     http://lists.debian.org/debian-dpkg/2007/04/msg00076.html (changes too
+     massive to enumerate here).
+   * Add "Breaks: apt (<< 0.7.6ubuntu6), aptitude (<< 0.4.6.1-1ubuntu2)", as
+     triggers add two extra states, which apt and aptitude before then do not
+     know about.
+   * An early version of trigger support caused LP #133172. To fix which
+     systems have had the broken version work we have to rename
+     triggers/Deferred to triggers/Unincorp.  The error messages, comments,
+     etc. will be improved later.
+
+   Status-fd changes:
+   * Changes to --status-fd and logging, motivated by the need to
+     fix apt's progress reporting in the presence of triggers (not introduced
+     in this version, but accidentally left out of previous merge's changelog
+     entry):
+    - Call log_action for trigger processing and configuration.
+    - Produce "processing:" output on --status-fd for start of
+      processing operations (from log_action).
+    - Consolidate clone-and-hack --status-fd output writing into
+      routine statusfd_send[v].
+    - Improve documentation of --status-fd output.
+    - Add log message at start of archivefiles() and packages()
+      (which will assist debugging).
+    - For upgrade, call log_message after printing to stderr,
+      as is done elsewhere.
+    - avoid closing fsys tarfile pipe twice even in normal
+      operation - normally EBADF but might sometimes close some other
+      desired fd and cause hideous doom.  (LP #137191)
+    - avoid duplicate attempts to [f]close in obscure error
+      situations which might conceiveably close wrong fds
+    - cast &fd to void* when passing to push_cleanup cu_closefd
+    - fix parse.c:parsedb to use ehflag_normaltidy in a sane way
+    - when passing &fd to push_cleanup cu_closefd, make fd always static
+      In the longer term --status-fd output ought probably to be made
+      identical to the log output which is richer and more sanely
+      formatted.
+  * New with this merge: Added test case for Launchpad-Bugs-Fixed.
+
+  [ Matthias Klose ]
+  * dpkg-buildpackage: Set a set of environment variables for setting
+    compiler and linker options, unless already set in the environment.
+    See https://wiki.ubuntu.com/DistCompilerFlags for the details.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 11 Feb 2008 16:42:49 +0100
+
 dpkg (1.14.16.6) unstable; urgency=medium
 
   * Let dpkg-gensymbols skip directories which are just symlinks when scanning
@@ -1559,6 +2190,74 @@ dpkg (1.14.16) unstable; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Mon, 21 Jan 2008 10:00:45 +0200
 
+dpkg (1.14.15ubuntu1) hardy; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+   - Add m_strdup to mlib.
+   - Use i686 for lpia in cputable and triplettable.
+   - Hack Dpkg::Arch to return i686 for lpia.
+   - tarfn.c:
+     + Avoid freeing uninitialised h.{Link,}Name (can cause crash if .deb
+       becomes unreadable while we start up).  (LP #138887)
+     + Use m_malloc instead of malloc (and ditch ad-hoc error handling).
+
+   Launchpad integration:
+   * Implement changelog-closes-bugs for Ubuntu (see
+     https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+   * Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+     complain about unknown fields.
+
+   DebianMaintainerField:
+   * scripts/dpkg-source.pl: Check that debian/control complies to
+     https://wiki.ubuntu.com/DebianMaintainerField: Refuse to build a source
+     package if we have an Ubuntu version number, but Maintainer: is not an
+     Ubuntu address. Output a warning if there is no XSBC-Original-Maintainer:
+     field for packages with an Ubuntu version number.
+   * scripts/dpkg-source.pl: Only fail to build the source package if $DEBEMAIL
+     contains 'ubuntu'. If not, only print a warning.
+   * debian/control: Change Maintainer/XSBC-Original-Maintainer field.
+
+   Trigger support:
+   * Implement triggers as per
+     http://lists.debian.org/debian-dpkg/2007/04/msg00076.html (changes too
+     massive to enumerate here).
+   * Add "Breaks: apt (<< 0.7.6ubuntu6), aptitude (<< 0.4.6.1-1ubuntu2)", as
+     triggers add two extra states, which apt and aptitude before then do not
+     know about.
+   * An early version of trigger support caused LP #133172. To fix which
+     systems have had the broken version work we have to rename
+     triggers/Deferred to triggers/Unincorp.  The error messages, comments,
+     etc. will be improved later.
+   
+   Status-fd changes:
+   * Changes to --status-fd and logging, motivated by the need to
+     fix apt's progress reporting in the presence of triggers (not introduced
+     in this version, but accidentally left out of previous merge's changelog
+     entry):
+    - Call log_action for trigger processing and configuration.
+    - Produce "processing:" output on --status-fd for start of
+      processing operations (from log_action).
+    - Consolidate clone-and-hack --status-fd output writing into
+      routine statusfd_send[v].
+    - Improve documentation of --status-fd output.
+    - Add log message at start of archivefiles() and packages()
+      (which will assist debugging).
+    - For upgrade, call log_message after printing to stderr,
+      as is done elsewhere.
+    - avoid closing fsys tarfile pipe twice even in normal
+      operation - normally EBADF but might sometimes close some other
+      desired fd and cause hideous doom.  (LP #137191)
+    - avoid duplicate attempts to [f]close in obscure error
+      situations which might conceiveably close wrong fds
+    - cast &fd to void* when passing to push_cleanup cu_closefd
+    - fix parse.c:parsedb to use ehflag_normaltidy in a sane way
+    - when passing &fd to push_cleanup cu_closefd, make fd always static
+    In the longer term --status-fd output ought probably to be made
+    identical to the log output which is richer and more sanely
+    formatted.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 14 Jan 2008 16:22:52 +0100
+
 dpkg (1.14.15) unstable; urgency=low
 
   [ Raphael Hertzog ]
@@ -1705,6 +2404,67 @@ dpkg (1.14.13) unstable; urgency=low
   * Swedish (Peter Karlsson).
 
  -- Guillem Jover <guillem@debian.org>  Thu, 27 Dec 2007 09:16:45 +0200
+
+dpkg (1.14.12ubuntu4) hardy; urgency=low
+
+  * Cherry pick from current trunk:
+    - Fix dpkg-shlibdeps choosing bad symbols files when there are several
+      providing the same soname. LP: #177917.
+
+ -- Matthias Klose <doko@ubuntu.com>  Fri, 04 Jan 2008 08:33:24 +0000
+
+dpkg (1.14.12ubuntu3) hardy; urgency=low
+
+  * Move lzma from Suggests to Pre-Depends for dpkg.
+
+ -- Chris Cheney <ccheney@ubuntu.com>  Thu, 13 Dec 2007 17:10:09 -0600
+
+dpkg (1.14.12ubuntu2) hardy; urgency=low
+
+  * Cherry pick from current trunk:
+    - Included files in symbols files (via #include) do no more need to repeat
+      the header line. Closes: #455260
+    - scripts/Dpkg/Shlibs/SymbolFile.pm (merge_symbols): Do not update
+      the deprecated version of a a symbol if it is already marked deprecated.
+
+ -- Matthias Klose <doko@ubuntu.com>  Wed, 12 Dec 2007 08:37:22 +0000
+
+dpkg (1.14.12ubuntu1) hardy; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+   - Add m_strdup to mlib (part of the fix for Debian #379028).
+   - Use i686 for lpia in cputable and triplettable.
+   - Hack Dpkg::Arch to return i686 for lpia
+
+   Launchpad integration:
+   * Implement changelog-closes-bugs for Ubuntu (see
+     https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+   * Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+     complain about unknown fields.
+
+   DebianMaintainerField:
+   * scripts/dpkg-source.pl: Check that debian/control complies to
+     https://wiki.ubuntu.com/DebianMaintainerField: Refuse to build a source
+     package if we have an Ubuntu version number, but Maintainer: is not an
+     Ubuntu address. Output a warning if there is no XSBC-Original-Maintainer:
+     field for packages with an Ubuntu version number.
+   * scripts/dpkg-source.pl: Only fail to build the source package if $DEBEMAIL
+     contains 'ubuntu'. If not, only print a warning.
+   * debian/control: Change Maintainer/XSBC-Original-Maintainer field.
+
+   Trigger support:
+   * Implement triggers as per
+     http://lists.debian.org/debian-dpkg/2007/04/msg00076.html (changes too
+     massive to enumerate here).
+   * Add "Breaks: apt (<< 0.7.6ubuntu6), aptitude (<< 0.4.6.1-1ubuntu2)", as
+     triggers add two extra states, which apt and aptitude before then do not
+     know about.
+   * An early version of trigger support caused LP #133172. To fix which
+     systems have had the broken version work we have to rename
+     triggers/Deferred to triggers/Unincorp.  The error messages, comments,
+     etc. will be improved later.
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 07 Dec 2007 10:45:12 +0100
 
 dpkg (1.14.12) unstable; urgency=low
 
@@ -2014,6 +2774,250 @@ dpkg (1.14.6) unstable; urgency=low
   * Swedish (Peter Karlsson).
 
  -- Guillem Jover <guillem@debian.org>  Wed, 05 Sep 2007 07:36:02 +0300
+
+dpkg (1.14.5ubuntu16) gutsy; urgency=low
+
+  * Fix some portability problems revealed by compiler warnings:
+    - missing <dpkg.h> in tarfn.c, implicit declaration of m_malloc
+    - missing cast for %ld ohshite at info.c:98
+    - unused yyunput (missing %option nounput) in trigdeferred.l
+
+ -- Ian Jackson <iwj@ubuntu.com>  Fri, 21 Sep 2007 19:03:36 +0100
+
+dpkg (1.14.5ubuntu15) gutsy; urgency=low
+
+  * Bugfixes to fd cleanup handling:
+    - avoid closing fsys tarfile pipe twice even in normal
+      operation - normally EBADF but might sometimes close some other
+      desired fd and cause hideous doom.  (LP: #137191.)
+    - avoid duplicate attempts to [f]close in obscure error
+      situations which might conceiveably close wrong fds
+    - cast &fd to void* when passing to push_cleanup cu_closefd
+    - fix parse.c:parsedb to use ehflag_normaltidy in a sane way
+    - when passing &fd to push_cleanup cu_closefd, make fd always static
+  * Bugfix in trigger deferred file processing: reset lexer start state
+    when calling yyrestart (has no effect except after parsing/reading
+    errors in the deferred file).
+  * Fix some error handling bugs in tarfn.c:
+    - Avoid freeing uninitialised h.[Link]Name (can cause crash if .deb
+      becomes unreadable while we start up).  (LP: #138887.)
+    - Use m_malloc instead of malloc (and ditch ad-hoc error handling).
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 20 Sep 2007 18:12:20 +0100
+
+dpkg (1.14.5ubuntu14) gutsy; urgency=low
+
+  * Change syntax of `processing:...' status fd outputs so
+    as to avoid crashing apt's lame parser.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Tue, 18 Sep 2007 17:14:31 +0100
+
+dpkg (1.14.5ubuntu13) gutsy; urgency=low
+
+  * Changes to --status-fd and logging, motivated by the need to
+    fix apt's progress reporting in the presence of triggers:
+    - Call log_action for trigger processing and configuration.
+    - Produce "processing:" output on --status-fd for start of
+      processing operations (from log_action).
+    - Consolidate clone-and-hack --status-fd output writing into
+      routine statusfd_send[v].
+    - Improve documentation of --status-fd output.
+    - Add log message at start of archivefiles() and packages()
+      (which will assist debugging).
+    - For upgrade, call log_message after printing to stderr,
+      as is done elsewhere.
+    In the longer term --status-fd output ought probably to be made
+    identical to the log output which is richer and more sanely
+    formatted.
+  
+ -- Ian Jackson <iwj@ubuntu.com>  Tue, 18 Sep 2007 14:13:07 +0100
+
+dpkg (1.14.5ubuntu12) gutsy; urgency=low
+
+  * Rerun autoconf so that version (as in DPKG_RUNNING_VERSION)
+    is 1.14.5ubuntu12.  This is needed for proper detection
+    of trigger capability by eg the ldconfig wrapper.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 06 Sep 2007 16:54:44 +0100
+
+dpkg (1.14.5ubuntu11) gutsy; urgency=low
+
+  * Breaks: enable Breaks processing in depisok
+    (Patch from Debian, buried in git 864201).
+
+ -- Ian Jackson <iwj@ubuntu.com>  Wed, 29 Aug 2007 15:10:50 +0100
+
+dpkg (1.14.5ubuntu10) gutsy; urgency=low
+  
+  Triggers improvements:
+  * Fix bug where diversions and triggers incorporated only on normal
+    error unwind from do_script (rather than on abnormal unwind).  The
+    effect of the bug was to temporarily disregard diversion changes made
+    by failing maintscripts and to erroneously suppress reflexive trigger
+    activations.
+  * Trigger cycle detection works properly: does not record details of
+    irrelevant packages, and prints error messages correctly and without
+    referencing uninitialised tcn->next.
+  * Provide DPKG_RUNNING_VERSION environment variable so that maintscripts
+    can know what features are going to work - in this case, whether
+    reflexive trigger activation will be honoured.
+  * New debugging flags and corresponding debug statements.
+  
+ -- Ian Jackson <iwj@ubuntu.com>  Fri, 24 Aug 2007 16:38:01 +0100
+
+dpkg (1.14.5ubuntu9) gutsy; urgency=low
+
+  * Triggers: Transitional interest recording works properly regardless
+    of the status of the interested package.  (LP: #133172.)
+    To fix systems which have had the broken version work we have to
+    rename triggers/Deferred to triggers/Unincorp.  The error
+    messages, comments, etc. will be improved later.
+  * Triggers: Make it possible for postinst of a package to trigger
+    itself.  (Thanks to Colin Watson for relevant discussions.)
+
+ -- Ian Jackson <iwj@ubuntu.com>  Tue, 21 Aug 2007 14:12:54 +0100
+
+dpkg (1.14.5ubuntu8) gutsy; urgency=low
+
+  * Really rerun automake and autoconf this time!
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 16 Aug 2007 17:59:19 +0100
+
+dpkg (1.14.5ubuntu7) gutsy; urgency=low
+
+  * Permit non-awaiting trigger activation.  (Helpful when T and U
+    both trigger I in their postinst and T depends on U but I's trigger
+    processing need not run as a result of U's postinst for T's benefit.)
+  * Correct sense of trigger processing deferral test.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 16 Aug 2007 16:56:40 +0100
+
+dpkg (1.14.5ubuntu6) gutsy; urgency=low
+
+  * Include dpkg-trigger in debian/dpkg.install.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 16 Aug 2007 15:53:32 +0100
+
+dpkg (1.14.5ubuntu5) gutsy; urgency=low
+
+  * Rerun automake and autoconf so that it can be built if
+    those are not installed.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Thu, 16 Aug 2007 15:41:58 +0100
+
+dpkg (1.14.5ubuntu4) gutsy; urgency=low
+
+  * Implementation of `triggers' feature.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Wed, 15 Aug 2007 20:23:10 +0100
+
+dpkg (1.14.5ubuntu3) gutsy; urgency=low
+
+  * The previous triplettable mangling still left us with a GNU_TYPE
+    of i486-linux-gnulp, which was suboptimal.  After mucking about
+    and coming to the conclusion that the current lookup tables just
+    weren't designed to handle two targets for the same CPU family,
+    implemented a hack in controllib.pl to DTRT for us for now.
+  * Add lpia to archtable for reference purposes and completeness.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed,  1 Aug 2007 12:11:40 +1000
+
+dpkg (1.14.5ubuntu2) gutsy; urgency=low
+
+  * Include mapping from gnulp-linux-i386 to lpia in triplettable
+    to ensure that dpkg-architecture.pl prints lpia during dpkg's
+    build so that dpkg --print-architecture prints lpia too.
+
+ -- Ian Jackson <iwj@ubuntu.com>  Tue, 31 Jul 2007 15:47:04 +0100
+
+dpkg (1.14.5ubuntu1) gutsy; urgency=low
+
+  Merge from debian unstable, remaining changes follow:
+
+  Miscellaneous fixes:
+  * Don't consider it a file conflict if the package contains
+    a symlink to a directory where another package already contains the
+    same symlink/directory and the existing and new symlinks point to the
+    same place.  (Launchpad 22340, Debian #377682.)
+  * mlib contains m_strdup (part of the fix for Debian #379028).
+  * Fix formatting of these files:
+       lib/showpkg.c
+       lib/tarfn.c
+       src/configure.c
+       src/archives.c (function quote_filename only)
+    to conform to the rest of dpkg by running them through
+    expand -t2 (and in the last case using M-x indent-rigidly once).
+    As discussed on debian-dpkg.  Submitted upstream as Debian #375711.
+  * scripts/update-alternatives.pl: in the case where the slave is
+    inapplicable do not attempt to create the slave link before removing
+    it again.  This will help alleviate LP #84906 (vim upgrade problems)
+    and will generally make things slightly less fragile.  Debian #411699.
+  * mlib contains m_strdup (part of the fix for Debian #379028).
+  * Fix the uninitialized value in string ne at /usr/sbin/update-alternatives
+    line 602.  Thanks to Ubulette for this patch.  (LP: #118246)
+    Patch modified by iwj not to ignore lstat failures.
+  * Use i686 for lpia in cputable and triplettable.
+
+  Launchpad integration:
+  * Implement changelog-closes-bugs for Ubuntu (see
+    https://wiki.ubuntu.com/ClosingBugsFromChangelog).
+  * Add Launchpad-Bugs-Fixed to dpkg-genchanges too, to make it not
+    complain about unknown fields.
+
+  DebianMaintainerField:
+  * scripts/dpkg-source.pl: Check that debian/control complies to
+    https://wiki.ubuntu.com/DebianMaintainerField: Refuse to build a source
+    package if we have an Ubuntu version number, but Maintainer: is not an
+    Ubuntu address. Output a warning if there is no XSBC-Original-Maintainer:
+    field for packages with an Ubuntu version number.
+  * scripts/dpkg-source.pl: Only fail to build the source package if $DEBEMAIL
+    contains 'ubuntu'. If not, only print a warning.
+  * debian/control: Change Maintainer/XSBC-Original-Maintainer field.
+
+  Implementation of Breaks:
+  * References:
+     http://lists.debian.org/debian-devel/1997/10/msg00643.html
+     https://wiki.ubuntu.com/PackageDependencyFieldBreaks
+     Debian #379140.
+  * Manpages mention Breaks: deb-control.5, dpkg-query.1, dpkg.1.
+  * Support for Breaks in dpkg-source, dpkg-gencontrol et al.
+  * Support for Breaks in the code in dpkg.
+  * Breaks is ignored by dselect.
+  * Fix for Debian #378003 (multiple deconfigurations) is
+    mixed in with Breaks implementation.
+  * Declare Breaks against older dpkg-dev rather than Conflicts.
+  * Decisions made:
+    * Specifying Breaks: <virtual package> is fairly meaningless
+      without versioned Provides but to make versioned Provides easier
+      in the future we support it fully.
+    * We do not transitively deconfigure things when we deconfigure
+      due to Breaks, just as we don't do so when we deconfigure due
+      to removal due to Conflicts (see also Debian #378009).
+    * Just as for deconfiguration due to Conflicts, we don't deconfigure
+      Essential packages without --force-remove-essential.
+    * We aren't willing to deconfigure more than one package as a result
+      of a single element of a Breaks, just as we aren't willing to
+      remove more than one package as a result of a single element of
+      a Conflicts.  (Note that this can only occur due to virtual
+      packages so it can be worked around by specifying the individual
+      real packages instead.)
+    * We're happy to deconfigure a package that's on hold even if
+      afterwards, due to Breaks, there might not be a way to reconfigure it.
+      (This is analogous to the situation where we install a package which
+      no longer satisfies the dependencies of an on-hold package; it's not
+      clear what the right answer is.)
+    * We invent a new --force-breaks which does much the
+      same as --force-conflicts.
+    * --ignore-depends works for Breaks even though it doesn't work
+      for Conflicts.
+    * <deconfigured's prerm> deconfigure in-favour <installing> <ver>
+        as well as
+      <deconfigured's prerm> deconfigure in-favour <installing> <ver> \
+                                       removing <conflictor> <ver>
+      and of course the corresponding
+    <deconfigured's postinst> abort-deconfigure in-favour <installing> <ver>
+
+ -- Ian Jackson <iwj@ubuntu.com>  Wed, 11 Jul 2007 16:26:17 +0100
 
 dpkg (1.14.5) unstable; urgency=low
 

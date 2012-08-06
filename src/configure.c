@@ -339,11 +339,12 @@ deferred_configure(struct pkginfo *pkg)
 
 	modstatdb_note(pkg);
 
-	maintainer_script_postinst(pkg, "configure",
+	if (maintainer_script_postinst(pkg, "configure",
 	                           informativeversion(&pkg->configversion) ?
 	                           versiondescribe(&pkg->configversion,
 	                                           vdew_nonambig) : "",
-	                           NULL);
+	                           NULL))
+		putchar('\n');
 
 	pkg->eflag = eflag_ok;
 	post_postinst_tasks(pkg, stat_installed);

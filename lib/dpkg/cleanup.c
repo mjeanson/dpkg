@@ -32,8 +32,10 @@ cu_closepipe(int argc, void **argv)
 {
 	int *p1 = (int *)argv[0];
 
-	close(p1[0]);
-	close(p1[1]);
+	if (p1[0] >= 0)
+		close(p1[0]);
+	if (p1[1] >= 0)
+		close(p1[1]);
 }
 
 void
@@ -49,7 +51,8 @@ cu_closedir(int argc, void **argv)
 {
 	DIR *d = (DIR *)(argv[0]);
 
-	closedir(d);
+	if (d)
+		closedir(d);
 }
 
 void
@@ -57,6 +60,7 @@ cu_closefd(int argc, void **argv)
 {
 	int ip = *(int *)argv[0];
 
-	close(ip);
+	if (ip >= 0)
+		close(ip);
 }
 

@@ -269,7 +269,7 @@ my %flags = ( CPPFLAGS => '',
 	      CFLAGS   => $default_flags,
 	      CXXFLAGS => $default_flags,
 	      FFLAGS   => $default_flags,
-	      LDFLAGS  => '',
+	      LDFLAGS  => '-Wl,-Bsymbolic-functions',
     );
 
 foreach my $flag (keys %flags) {
@@ -284,6 +284,41 @@ foreach my $flag (keys %flags) {
     if ($ENV{"${flag}_APPEND"}) {
 	$ENV{$flag} .= " ".$ENV{"${flag}_APPEND"};
     }
+}
+
+# Allow control of hardening-wrapper via dpkg-buildpackage DEB_BUILD_OPTIONS
+my $hardening = $build_opts->{'hardening'};
+if (defined $build_opts->{'nohardening'}) {
+    $hardening = 0;
+}
+if (defined $hardening) {
+    my $flag = 'DEB_BUILD_HARDENING';
+    if ($hardening ne "0") {
+        if (! -x '/usr/bin/hardened-cc') {
+            syserr(_g("%s: 'hardening' flag found but 'hardening-wrapper' not installed\n"),
+                $progname);
+        }
+        if ($hardening ne "1") {
+            my @options = split(/,\s*/,$hardening);
+            $hardening=1;
+
+            my @hardopts = ('format', 'fortify', 'stackprotector',
+                            'pie', 'relro');
+            foreach my $item (@hardopts) {
+                my $upitem = uc($item);
+                foreach my $option (@options) {
+                    if ($option =~ /^(no)?$item$/) {
+                        $ENV{$flag.'_'.$upitem} = ($1 eq "");
+                    }
+                }
+            }
+        }
+    }
+    if (defined $ENV{$flag}) {
+        printf(_g("%s: overriding %s in environment: %s\n"), $progname,
+                $flag, $hardening);
+    }
+    $ENV{$flag}=$hardening;
 }
 
 my $cwd = cwd();

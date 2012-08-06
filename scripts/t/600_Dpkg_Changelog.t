@@ -177,15 +177,18 @@ Urgency: high
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
 Date: Sun, 13 Jan 2008 15:49:19 +0100
 Closes: 1000000 1111111 2222222
+Launchpad-Bugs-Fixed: 12345 54321 424242 2424242
 Changes: 
  fields (2.0-0etch1) stable; urgency=low
  .
    * Upload to stable (Closes: #1111111, #2222222)
+   * Fix more stuff. (LP: #54321, #2424242)
  .
  fields (2.0-1) unstable  frozen; urgency=medium
  .
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+   * Fix stuff. (LP: #12345, #424242)
  .
    [ Raphael Hertzog ]
    * New upstream release.
@@ -213,11 +216,13 @@ Urgency: medium
 Maintainer: Frank Lichtenheld <djpig@debian.org>
 Date: Sun, 12 Jan 2008 15:49:19 +0100
 Closes: 1111111 2222222
+Launchpad-Bugs-Fixed: 12345 424242
 Changes: 
  fields (2.0-1) unstable  frozen; urgency=medium
  .
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+   * Fix stuff. (LP: #12345, #424242)
  .
    [ Raphael Hertzog ]
    * New upstream release.
@@ -276,11 +281,11 @@ Xb-Userfield2: foobar
 	    "get_timestamp");
 	my @items = $data[1]->get_change_items();
 	is($items[0], "  [ Frank Lichtenheld ]\n", "change items 1");
-	is($items[3], "  * New upstream release.
+	is($items[4], "  * New upstream release.
     - implements a
     - implements b
 ", "change items 2");
-	is($items[4], "  * Update S-V.\n", "change items 3");
+	is($items[5], "  * Update S-V.\n", "change items 3");
     }
 
     SKIP: {

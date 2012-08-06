@@ -233,6 +233,7 @@ set to default values unless already present in the environment. Note that
 this mechanism was only introduced in version 1.14.17 of dpkg-dev and
 not all \fIrules\fP files and build tools will honour these variables,
 yet.
+See https://wiki.ubuntu.com/DistCompilerFlags for the details.
 .TP
 .B CFLAGS
 Optimization options which are passed to the Debian build system and
@@ -297,6 +298,38 @@ have to be stripped from these options). Default value: empty.
 Optimization options appended to the compiler flags when linking code,
 which must not be overwritten by the package (mostly used to for test
 builds). Default value: empty.
+.TP
+.B DEB_BUILD_OPTIONS
+As indicated above,
+.BR noopt
+will disable optimation.
+Additionally, when used with the
+.BR hardening-wrapper
+package, the values
+.BR hardening
+and
+.BR nohardening
+will be converted into their respective DEB_BUILD_HARDENING values.
+The
+.BR hardening
+option can also include (optionally prefixed with
+.BR no
+) the following sub-options:
+.BR stackprotector
+.BR format
+.BR fortify
+.BR pie
+.BR relro
+For example,
+.BR DEB_BUILD_OPTIONS=hardening=nopie
+would cause
+.BR DEB_BUILD_HARDENING_PIE=0
+to be set, or
+.BR DEB_BUILD_OPTIONS=nohardening
+would cause
+.BR DEB_BUILD_HARDENING=0
+to be set.
+See http://wiki.debian.org/Hardening for further details.
 .
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters in
