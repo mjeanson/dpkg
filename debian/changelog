@@ -1,3 +1,11 @@
+dpkg (1.15.5.6ubuntu4.2) lucid-proposed; urgency=low
+
+  * Backport my patch from dpkg 1.15.6.1:
+    - Accept source packages without "Format" field for compatibility with
+      very old source packages (LP: #632280).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 07 Sep 2010 12:05:25 +0100
+
 dpkg (1.15.5.6ubuntu4.1) lucid-proposed; urgency=low
 
   * Backport proposed patch from Guillem Jover:
