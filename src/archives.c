@@ -838,6 +838,11 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
   struct filenamenode *usenode;
   const char *usename;
 
+#if !defined(HAVE_ASYNC_SYNC)
+  debug(dbg_general, "deferred extract mass sync");
+  sync();
+#endif
+
   for (cfile = files; cfile; cfile = cfile->next) {
     debug(dbg_eachfile, "deferred extract of '%.255s'", cfile->namenode->name);
 
@@ -851,6 +856,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 
     setupfnamevbs(usename);
 
+#if defined(HAVE_ASYNC_SYNC)
     if (cfile->namenode->flags & fnnf_deferred_fsync) {
       int fd;
 
@@ -866,6 +872,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 
       cfile->namenode->flags &= ~fnnf_deferred_fsync;
     }
+#endif
 
     if (rename(fnamenewvb.buf, fnamevb.buf))
       ohshite(_("unable to install new version of `%.255s'"),
