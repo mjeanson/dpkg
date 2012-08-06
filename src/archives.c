@@ -356,6 +356,7 @@ int tarobject(struct TarInfo *ti) {
   static int fd;
   const char *usename;
   struct filenamenode *usenode;
+  struct filenamenode *linknode;
 
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
@@ -654,6 +655,10 @@ int tarobject(struct TarInfo *ti) {
     am=(nifd->namenode->statoverride ? nifd->namenode->statoverride->mode : ti->Mode) & ~S_IFMT;
     if (fchmod(fd,am))
       ohshite(_("error setting permissions of `%.255s'"),ti->Name);
+
+    /* Postpone the fsync, to try to avoid massive I/O degradation. */
+    nifd->namenode->flags |= fnnf_deferred_fsync;
+
     pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"),ti->Name);
@@ -680,7 +685,11 @@ int tarobject(struct TarInfo *ti) {
   case HardLink:
     varbufreset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
-    varbufaddstr(&hardlinkfn,ti->LinkName); varbufaddc(&hardlinkfn,0);
+    varbufaddstr(&hardlinkfn, ti->LinkName);
+    linknode = findnamenode(ti->LinkName, 0);
+    if (linknode->flags & fnnf_deferred_rename)
+      varbufaddstr(&hardlinkfn, DPKGNEWEXT);
+    varbufaddc(&hardlinkfn, '\0');
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject HardLink");
@@ -789,31 +798,101 @@ int tarobject(struct TarInfo *ti) {
         
 #endif /* WITH_SELINUX */
 
-  if (rename(fnamenewvb.buf,fnamevb.buf))
-    ohshite(_("unable to install new version of `%.255s'"),ti->Name);
+  if (ti->Type == NormalFile0 || ti->Type == NormalFile1) {
+    nifd->namenode->flags |= fnnf_deferred_rename;
 
-  /* CLEANUP: now the new file is in the destination file, and the
-   * old file is in dpkg-tmp to be cleaned up later.  We now need
-   * to take a different attitude to cleanup, because we need to
-   * remove the new file.
-   */
+    debug(dbg_eachfiledetail, "tarobject done and installation deferred");
+  } else {
+    if (rename(fnamenewvb.buf,fnamevb.buf))
+      ohshite(_("unable to install new version of `%.255s'"),ti->Name);
 
-  nifd->namenode->flags |= fnnf_placed_on_disk;
+    /* CLEANUP: now the new file is in the destination file, and the
+     * old file is in dpkg-tmp to be cleaned up later.  We now need
+     * to take a different attitude to cleanup, because we need to
+     * remove the new file.
+     */
+
+    nifd->namenode->flags |= fnnf_placed_on_disk;
 
 #ifdef WITH_SELINUX
-  /*
-   * if selinux is enabled, restore the default security context
-   */
-  if (selinux_enabled > 0)
-    if(setfscreatecon(NULL) < 0)
-      perror("Error restoring default security context:");
+    /*
+     * if selinux is enabled, restore the default security context
+     */
+    if (selinux_enabled > 0)
+      if(setfscreatecon(NULL) < 0)
+        perror("Error restoring default security context:");
 #endif /* WITH_SELINUX */
 
+    nifd->namenode->flags |= fnnf_elide_other_lists;
 
-  nifd->namenode->flags |= fnnf_elide_other_lists;
+    debug(dbg_eachfiledetail,"tarobject done and installed");
+  }
 
-  debug(dbg_eachfiledetail,"tarobject done and installed");
   return 0;
+}
+
+void
+tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
+{
+  struct fileinlist *cfile;
+  struct filenamenode *usenode;
+  const char *usename;
+
+  for (cfile = files; cfile; cfile = cfile->next) {
+    debug(dbg_eachfile, "deferred extract of '%.255s'", cfile->namenode->name);
+
+    if (!(cfile->namenode->flags & fnnf_deferred_rename))
+      continue;
+
+    debug(dbg_eachfiledetail, "deferred extract needs rename");
+
+    usenode = namenodetouse(cfile->namenode, pkg);
+    usename = usenode->name + 1; /* Skip the leading '/'. */
+
+    setupfnamevbs(usename);
+
+    if (cfile->namenode->flags & fnnf_deferred_fsync) {
+      int fd;
+
+      debug(dbg_eachfiledetail, "deferred extract needs fsync");
+
+      fd = open(fnamenewvb.buf, O_WRONLY);
+      if (fd < 0)
+        ohshite(_("unable to open '%.255s'"), fnamenewvb.buf);
+      if (fsync(fd))
+        ohshite(_("unable to sync file '%.255s'"), fnamenewvb.buf);
+      if (close(fd))
+        ohshite(_("error closing/writing `%.255s'"), fnamenewvb.buf);
+
+      cfile->namenode->flags &= ~fnnf_deferred_fsync;
+    }
+
+    if (rename(fnamenewvb.buf, fnamevb.buf))
+      ohshite(_("unable to install new version of `%.255s'"),
+              cfile->namenode->name);
+
+    cfile->namenode->flags &= ~fnnf_deferred_rename;
+
+    /* CLEANUP: now the new file is in the destination file, and the
+     * old file is in dpkg-tmp to be cleaned up later.  We now need
+     * to take a different attitude to cleanup, because we need to
+     * remove the new file. */
+
+    cfile->namenode->flags |= fnnf_placed_on_disk;
+
+#ifdef WITH_SELINUX
+    /*
+     * if selinux is enabled, restore the default security context
+     */
+    if (selinux_enabled > 0)
+      if(setfscreatecon(NULL) < 0)
+        perror("Error restoring default security context:");
+#endif /* WITH_SELINUX */
+
+    cfile->namenode->flags |= fnnf_elide_other_lists;
+
+    debug(dbg_eachfiledetail, "deferred extract done and installed");
+  }
 }
 
 static int

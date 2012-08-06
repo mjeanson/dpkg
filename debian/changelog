@@ -1,3 +1,22 @@
+dpkg (1.15.5.6ubuntu4) lucid; urgency=low
+
+  * Backport from upstream:
+    - Restore fsync during package unpack (LP: #559915).  This is now done
+      by deferring the fsync and rename for normal files in tar extraction
+      so that it's done in one pass afterwards, to avoid massive I/O
+      degradation due to the serialization from each write + fsync.  When
+      creating hard links to normal files on extraction use the .dpkg-new
+      filename for source as the file is not yet in place due to the rename
+      deferral.
+    - Fix dpkg to not lose package metadata on filesystems where readdir()
+      returns new files added after the opendir() call, btrfs in particular
+      triggered the problematic behaviour. Closes: #575891
+    - Report deferred trigger errors on status-fd. Closes: #574599,
+      LP: #540252
+      Thanks to Michael Vogt <michael.vogt@ubuntu.com>.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 15 Apr 2010 12:38:50 +0100
+
 dpkg (1.15.5.6ubuntu3) lucid; urgency=low
 
   * Revert fsync during package unpack for now; it's unacceptably slow for
